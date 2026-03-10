@@ -1,0 +1,13 @@
+# Dependencies
+app/node_modules/
+
+# Database
+app/db/gatopreto.db
+app/db/gatopreto.db-shm
+app/db/gatopreto.db-wal
+app/gatopreto.db
+
+# Misc
+.DS_Store
+*.log
+.env
