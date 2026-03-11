@@ -1,17 +1,22 @@
 #!/bin/sh
 set -e
 
-DB_PATH="./db/gatopreto.db"
+VOLUME_DB="/data/gatopreto.db"
 SEED_PATH="./db_seed/gatopreto.db"
+LINK_PATH="./db/gatopreto.db"
 
-mkdir -p ./db
+mkdir -p /data
 
-if [ ! -f "$DB_PATH" ]; then
-  echo "DB not found — copying seed..."
-  cp "$SEED_PATH" "$DB_PATH"
-  echo "Seed copied successfully."
+if [ ! -f "$VOLUME_DB" ]; then
+  echo "DB not found — copying seed to volume..."
+  cp "$SEED_PATH" "$VOLUME_DB"
+  echo "Seed copied."
 else
-  echo "DB already exists — skipping seed."
+  echo "DB already exists on volume."
 fi
+
+# Symlink volume DB into the path schema.js expects
+ln -sf "$VOLUME_DB" "$LINK_PATH"
+echo "Symlink created: $LINK_PATH -> $VOLUME_DB"
 
 exec node server.js
